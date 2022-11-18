@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LISA: Localized Image Stylization with Audio via Implicit Neural Representation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+	<meta property="og:title" content="LISA">
+    <meta property="og:url" content="https://anonLISA.github.io/">
+	<meta property="og:image" content="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/fig1.png">
+	<meta name="description" content="cvpr2023-7227">
+	<meta name="keywords" content="LISA">
+	<meta name="author" content="....">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>LISA: Localized Image Stylization with Audio <br> via Implicit Neural Representation</h1>
+    <center>
+        <h3></h3>
+    </center>
+    
+</div>
+<div class="byline">
+    <div class="authors">
+        <center>
+            <div class="author"><sup> <h2>Anonymous #7831</div>
+
+        </center>
+    </div>
+    
+    <div class="links">
+        <center>
+        
+            <a href="https://github.com/anonLISA/7831" class="link">
+                [Code]
+            </a>
+        </center>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="center-img">
+        <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/fig1.png">
+    </div>
+    
+    <div class="sections-container">
+        <div class="section">
+            <h2 class="section-title">Abstract</h2>
+            <p>
+                We present a novel framework, Localized Image Stylization with Audio (LISA) which performs audio-driven localized image stylization. 
+                <!-- % The audio contains rich information in a continuous manner compared to text and is able to convey its knowledge to our sight through audio-visual relationships.
+                % Stylizing the desired part of the image is an important issue and a sound is usually related to a certain part of the scene or object. -->
+                Sound often provides information about the specific context of the scene and is closely related to a certain part of the scene or object. However, existing image stylization works have focused on stylizing the entire image using an image or text input. Stylizing a particular part of the image based on audio input is natural but challenging.
+                <!-- % In the proposed framework,  -->
+                In this work, we propose a framework that a user provides an audio input to localize the sound source in the input image and another for locally stylizing the target object or scene. LISA first produces a delicate localization map with an audio-visual localization network by leveraging CLIP embedding space. We then utilize implicit neural representation (INR) along with the predicted localization map to stylize the target object or scene based on sound information. The proposed INR can manipulate the localized pixel values to be semantically consistent with the provided audio input.
+                Through a series of experiments, we show that the proposed framework outperforms the other audio-guided stylization methods. Moreover, LISA constructs concise localization maps and naturally manipulates the target object or scene in accordance with the given audio input. 
+            </p>
+        </div>
+        <div class="section">
+            <h2 class="section-title">Method</h2>
+            <h3 class="section-subtitle"> Audio-visual Localizer.</h3>
+            <div class="center-img">
+                <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/figure3.png"/>
+            </div>
+            <p style="margin-top: 30px">
+                An overview of our <em>Audio-visual Localizer</em>, which identifies an image region corresponding to the sound input 
+                (e.g., localizing a train based on a sound of engine noise), producing a probability mask as an output. 
+                Due to the lack of data to provide such supervision, we leverage the existing text-guided zero-shot segmentation model, 
+                using its output as a pseudo label.
+            </p>
+
+            <h3 class="section-subtitle"> Localized Image Stylization with Audio (LISA).</h3>
+            <div class="center-img">
+                <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/figure2.png"/>
+            </div>
+            <p style="margin-top: 30px">
+                An overview of our proposed method called Localized Image Stylization with Audio (LISA). 
+                Our model consists of two main parts: (i) <em>Audio-Visual Localizer</em>, which outputs a pixel-level localization mask conditioned on an audio input (e.g., given a sound of engine noise input, 
+                our model localizes a train from the source image, producing a probability mask) and 
+                (ii) <em>Audio-Guided INR Stylizer</em>, which outputs stylized images by taking pixel locations as input and producing RGB pixel values as output. 
+                Conditioned on a new user-provided sound input (e.g., splashing plastic bag), our model is optimized with multi-scale PatchCLIP loss to generate an audio-guided “locally” stylized image. 
+                We also use Foreground Regularization Loss to make the stylized image and a source image perceptually look similar.
+            </p>
+        </div>
+<!--        <div class="section">-->
+<!--            <h2 class="section-title">Links</h2>-->
+<!--        </div>-->
+        <div class="section">
+            <h2 class="section-title">Stylized Results</h2>
+            
+
+            <div class="center-img">
+                <figure>
+                    <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/figure_sup_highres-1.jpg"/>
+                </figure>
+               
+            </div>
+
+            
+            <p>
+                Comparison of stylizing high-resolution image (1536 × 1024) using CLIPstyler and ours. Unlike CLIPstyler, our method can generate a realistic style even for a high-resolution image.
+            </p>
+            
+
+            <div class="center-img">
+                <figure>
+                    <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/figure_sup2-1.jpg"/>
+                </figure>
+            </div>
+            <!-- <div class="center-img">
+        
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/fire.wav" type="audio/wav">
+                </audio>
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/thunderstorm.wav" type="audio/wav">
+                </audio>
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/explosion.wav" type="audio/wav">
+                </audio>
+            </div> -->
+
+            <p> Comparison between Text2LIVE and Ours. Text2LIVE shows distorted structures on the outside of the target area. However, our approach stylizes the foreground of the source image per-pixel with maintaining the background.
+            </p>
+
+            
+            <div class="center-img">
+                <figure>
+                    <img class="content" src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/figure6-1.jpg"/>
+                </figure>
+            </div>
+            
+            <p>
+                Interactive stylization results with different types of condition modality. The first to second rows use audio as a localization condition, and from the third to last rows localization is conditioned by text prompt. For stylization conditions, from second to fourth columns are conditioned by audio, and from fifth to the final column is conditioned by text prompts. The red box at each source image indicates a predicted sound source localization map, respectively.
+            </p>
+            <!-- <div class="center-img">
+                
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/sobbing.wav" type="audio/wav">
+                </audio>
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/giggling.wav" type="audio/wav">
+                </audio>
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2022/noseblowing.wav" type="audio/wav">
+                </audio>
+            </div> -->
+
+
+            <!-- <h3 style="margin-bottom: 30px">Showcase.</h3>
+            <div class="examples">
+                <div id="left-example-column" class="example-column"></div>
+                <div id="right-example-column" class="example-column"></div>
+            </div> -->
+                
+            <h3 style="margin-bottom: 30px">Showcase.</h3>
+
+            <div class="example-item">
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/0002.png" width="600" height="450">
+                <p class="arrow">→</p>
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/0002_mountain_explosion21024_test.jpg"  width="600" height="450">
+            </div>
+            <div class="sound-control">
+                <p> 🔊Explosion</p>
+                
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/explosion2.wav" type="audio/wav">
+                </audio>
+            </div> 
+
+            <div class="example-item">
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/lake.jpg" width="600" height="450">
+                <p class="arrow">→</p>
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/lake_water_bubbling1024_test.jpg" width="600" height="450">
+            </div>
+            <div class="sound-control">
+                <p> 🔊Underwater Bubbling</p>
+                
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/bubbling.wav" type="audio/wav">
+                </audio>
+            </div>
+
+            <div class="example-item">
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/0473.png" width="600" height="450">
+                <p class="arrow">→</p>
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/0473_motorcycle_fire1024_test.jpg" width="600" height="450">
+            </div>
+            <div class="sound-control">
+                <p> 🔊Fire Crackling</p>
+                
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/fire.wav" type="audio/wav">
+                </audio>
+            </div> 
+
+            <div class="example-item">
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/guitar.jpg" width="600" height="450">
+                <p class="arrow">→</p>
+                <img src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/guitar_guitar_fabric1024_test.jpg" width="600" height="450">
+            </div>
+            <div class="sound-control">
+                <p> 🔊Splashing Fabric</p>
+                
+                <audio controls>
+                    <source src="https://kr.object.ncloudstorage.com/cvpr2023/projectpage/fabric.wav" type="audio/wav">
+                </audio>
+            </div> 
+
+            
+            
+            
+        </div>
+	   
+    </div>
+
+
+</div>
+</body>
+
+</html>
